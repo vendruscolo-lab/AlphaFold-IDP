@@ -16,7 +16,7 @@ This repository provides with custom code and analysis scripts to generate struc
 
 - The prior structural ensembles originating from Molecular Dynamics for αβ can be found [here](https://zenodo.org/record/4247321)
 - The prior structural ensembles originating from Molecular Dynamics for α-synuclein can be found [here](https://statics.teams.cdn.office.net/evergreen-assets/safelinks/1/atp-safelinks.html)
-- The prior structural ensemble originating from Calvados2 for αβ and a-synuclein can be found [here] (https://zenodo.org/record/7756138#.ZBnysy0Rq1E)
+- The prior structural ensemble originating from Calvados2 for αβ and a-synuclein can be found [here](https://zenodo.org/record/7756138#.ZBnysy0Rq1E)
 - The prior structural ensemble originating from Foldingdiff for αβ can be found [here](https://zenodo.org/record/7756138#.ZBnysy0Rq1E)
 - The AlphaFold posterior structural ensembles for all the abovementioned priors can be found [here](https://zenodo.org/record/7756138#.ZBnysy0Rq1E) 
 - The prior structural ensembles originating from Calvados2 for DSS1, NH6cmdd, ANAC046, Sic1, ProTa, GHR-ICD can be found [here](https://zenodo.org/record/7415039#.ZBnari0Rq1E)
