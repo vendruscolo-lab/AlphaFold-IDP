@@ -25,6 +25,7 @@ This repository provides with custom code and analysis scripts to generate struc
 
 The analysis was performed on a single machine containing 12 Intel(R) Xeon(R) W-2133 CPU @ 3.60GH CPUs, with total system memory of 100 GB 
 Running the notebooks that performs the AF-ensemble generation takes approximately < 10'
+The google-colab notebook takes < 30' to generate the the AF pairwise aminoacid distance prediction for each protein.
 
 
 ## Authors
