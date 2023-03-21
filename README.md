@@ -4,7 +4,8 @@ This repository provides with custom code and analysis scripts to generate struc
 ## Layout
 - `BME_IDP`: This folder contains a branch of the original [Bayesian Maximum Entropy](https://github.com/KULL-Centre/BME) original code to reweight structural ensembles using experimental information, but specially adapted in the analysis **notebooks** to incorporate pairwise aminoacid AlphaFold predicted distances as constraints. 
 
-In the `BME_IDP/notebooks/` one is able to reproduce the results in our paper such as: 
+In  `BME_IDP/notebooks/` one is able to reproduce the results in our paper such as: 
+
   - Generation of the AlphaFold posterior structural ensemble by using reweighting based on AlphaFold pairwise distances predictions as constraints
   - Radius of gyration in the AlphaFold structural ensemble
   - Back calculated NMR chemical shifts from the  AlphaFold structural ensemble and comparisson to the experimental NMR chemical shifts.
