@@ -1,5 +1,5 @@
 # AlphaFold-IDP
-This repository provides with custom code and analysis scripts to generate structural ensembles of intrinsically disordered proteins by using AlphaFold generated residue distance maps as constraints using prior-structural ensembles. 
+This repository provides with custom code and analysis scripts to generate structural ensembles of intrinsically disordered proteins by using AlphaFold generated residue distance maps as constraints using prior-structural ensembles. AlphaFold structural ensemble and figures generated in the publication can be found in [Zenobo](myzenobo)
 
 ## Layout
 - `BME_IDP`: This folder contains a branch of the original [Bayesian Maximum Entropy](https://github.com/KULL-Centre/BME) original code to reweight structural ensembles using experimental information, but specially adapted in the analysis **notebooks** to incorporate pairwise aminoacid AlphaFold predicted distances as constraints. In the notebooks ones is able to reproduce the results in our paper such as: 
@@ -10,14 +10,22 @@ This repository provides with custom code and analysis scripts to generate struc
  by using as input prior trajectories of αβ and α-synuclein either MD based, CG based or FoldingDiff based, found in the datasets mentioned below.
 - `AlphaFold prediction of pairwise distances`: In [this](https://colab.research.google.com/github/zshengyu14/colabfold_distmat/blob/main/AlphaFold2.ipynb) google colab notebook, the user can generate AlphaFold predictions of the means and standard deviation of pairwise aminoacid distances, from arbitrary aminoacid sequences.
 - `Backmap`: This folder contains examples code on how one can generate atomistic ensembles from αβ coarse-grained ensembles, originating from [Calvados2](https://github.com/KULL-Centre/CALVADOS) or [Foldingdiff](https://github.com/microsoft/foldingdiff) packages, by using [PULCHRA]( https://cssb.biology.gatech.edu/skolnick/files/PULCHRA).
-- `s`:
+- `SAXS`: This folder contains 
 
 ## Dataset
 
-This repository contains the full code and some small example data to reproduce our results on the kinetic ensemble of amyloid-β 42. See also the original implementation of the constrained VAMPNets.
-
+- The prior structural ensembles originating from Molecular Dynamics for αβ can be found [here](https://zenodo.org/record/4247321)
+- The prior structural ensembles originating from Molecular Dynamics for α-synuclein can be found [here](https://statics.teams.cdn.office.net/evergreen-assets/safelinks/1/atp-safelinks.html)
+- The prior structural ensemble originating from Calvados2 for αβ and a-synuclein can be found [here] (myzenobo)
+- The prior structural ensemble originating from Foldingdiff for αβ can be found [here](myzenobo)
+- The AlphaFold posterior structural ensembles for all the abovementioned priors can be found [here] (myzenobo) 
+- The prior structural ensembles originating from Calvados2 for DSS1, NH6cmdd, ANAC046, Sic1, ProTa, GHR-ICD can be found [here](https://zenodo.org/record/7415039#.ZBnari0Rq1E)
 
 ## Reproducability information 
+
+The analysis was performed on a single machine containing 12 Intel(R) Xeon(R) W-2133 CPU @ 3.60GH CPUs, with total system memory of 100 GB 
+Running the notebooks that performs the AF-ensemble generation takes approximately < 10'
+
 
 ## Authors
 [Faidon Brotzakis (@fbrotzakis)](https://github.com/fbrotzakis)
