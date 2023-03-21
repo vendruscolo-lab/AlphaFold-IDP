@@ -10,7 +10,7 @@ This repository provides with custom code and analysis scripts to generate struc
  by using as input prior trajectories of αβ and α-synuclein either MD based, CG based or FoldingDiff based, found in the datasets mentioned below.
 - `AlphaFold prediction of pairwise distances`: In [this](https://colab.research.google.com/github/zshengyu14/colabfold_distmat/blob/main/AlphaFold2.ipynb) google colab notebook, the user can generate AlphaFold predictions of the means and standard deviation of pairwise aminoacid distances, from arbitrary aminoacid sequences.
 - `Backmap`: This folder contains examples code on how one can generate atomistic ensembles from αβ coarse-grained ensembles, originating from [Calvados2](https://github.com/KULL-Centre/CALVADOS) or [Foldingdiff](https://github.com/microsoft/foldingdiff) packages, by using [PULCHRA]( https://cssb.biology.gatech.edu/skolnick/files/PULCHRA).
-- `BME_IDP/notebooks/PDDD_comparisnon.py`,`BME_IDP/notebooks/run_comparisson_PDDF.sh` scripts perform the comparisson to PairDistanceDistribution Function derived from SAXS data (using the BioXtas software). The ncesessary backmapped trajectories of the Calvados2 original dataset (Pesce et. al.) have been deposited [here](myzenobo)
+- `BME_IDP/notebooks/PDDD_comparisnon.py`,`BME_IDP/notebooks/run_comparisson_PDDF.sh` scripts perform the comparisson to PairDistanceDistribution Function derived from SAXS data (using the Raw-v2.1.4 software). The ncesessary backmapped trajectories of the Calvados2 original dataset (Pesce et. al.) have been deposited [here](myzenobo)
 
 ## Dataset
 
