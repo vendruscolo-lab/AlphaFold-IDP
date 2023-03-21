@@ -1,6 +1,7 @@
 numpy
 pandas
 scipy
+sklearn
 mdtraj 
 matplolib
 plumed
