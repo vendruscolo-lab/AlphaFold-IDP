@@ -1,0 +1,12 @@
+name: AlphaFold-IDP
+dependencies:
+  - python=3.8
+  - numpy
+  - pandas
+  - scipy
+  - matplotlib
+  - notebook
+  - conda-forge::mdtraj
+  - plumed
+  - gromacs
+
