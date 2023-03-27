@@ -33,23 +33,16 @@ The backmap analysis took up to to 3 hrs depending on the proteins tested.
 The code can be used in Linux or macOS. 
 
 ### Dependencies: 
-`
+```
 numpy
-
 pandas
-
 scipy
-
 sklearn
-
 mdtraj 
-
 matplolib
-
 plumed
-
 gromacs
-`
+```
 
 ### Installation:
 
