@@ -37,7 +37,7 @@ The code can be used in Linux or macOS.
 numpy
 pandas
 scipy
-sklearn
+notebook
 mdtraj 
 matplolib
 plumed
