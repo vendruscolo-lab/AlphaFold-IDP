@@ -28,6 +28,26 @@ Running the notebooks that performs the AF-ensemble generation takes approximate
 The google-colab notebook a few minutes to generate the the AF pairwise aminoacid distance prediction of ~ 100 aminoacid  long proteins.
 The backmap analysis took up to to 3 hrs depending on the proteins tested.
 
+## Software requirements
+
+The code can be used in Linux or macOS. 
+
+### Dependencies: 
+`
+numpy
+pandas
+scipy
+sklearn
+mdtraj 
+matplolib
+plumed
+gromacs
+`
+
+### Installation:
+
+The user should download this github repo locally by `gitclone https://github.com/vendruscolo-lab/AlphaFold-IDP.git`
+Then, create a new environment by `conda env create -f environment.yml` followed by `conda activate AlphaFold-IDP`
 
 ## Authors
 [Faidon Brotzakis (@fbrotzakis)](https://github.com/fbrotzakis)
