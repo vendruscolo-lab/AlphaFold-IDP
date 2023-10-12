@@ -1,0 +1,31 @@
+2023-07-13 11:33:05,067 Running on GPU
+2023-07-13 11:33:05,212 Found 4 citations for tools or databases
+2023-07-13 11:33:05,212 Query 1/1: tdp43_WtoA_bf4cc (length 414)
+2023-07-13 11:33:05,820 Sleeping for 9s. Reason: PENDING
+2023-07-13 11:33:15,398 Sleeping for 9s. Reason: RUNNING
+2023-07-13 11:33:24,990 Sleeping for 7s. Reason: RUNNING
+2023-07-13 11:33:32,559 Sleeping for 7s. Reason: RUNNING
+2023-07-13 11:33:40,152 Sleeping for 7s. Reason: RUNNING
+2023-07-13 11:33:47,736 Sleeping for 10s. Reason: RUNNING
+2023-07-13 11:33:58,306 Sleeping for 5s. Reason: RUNNING
+2023-07-13 11:34:03,880 Sleeping for 7s. Reason: RUNNING
+2023-07-13 11:34:11,465 Sleeping for 10s. Reason: RUNNING
+2023-07-13 11:34:22,051 Sleeping for 7s. Reason: RUNNING
+2023-07-13 11:34:29,631 Sleeping for 10s. Reason: RUNNING
+2023-07-13 11:34:40,217 Sleeping for 6s. Reason: RUNNING
+2023-07-13 11:34:46,820 Sleeping for 8s. Reason: RUNNING
+2023-07-13 11:34:55,398 Sleeping for 8s. Reason: RUNNING
+2023-07-13 11:35:03,990 Sleeping for 9s. Reason: RUNNING
+2023-07-13 11:35:13,582 Sleeping for 6s. Reason: RUNNING
+2023-07-13 11:35:20,166 Sleeping for 9s. Reason: RUNNING
+2023-07-13 11:35:29,738 Sleeping for 5s. Reason: RUNNING
+2023-07-13 11:35:39,470 Padding length to 414
+2023-07-13 11:35:39,471 Setting max_seq=512, max_extra_seq=1024
+2023-07-13 11:37:19,606 alphafold2_ptm_model_3_seed_000 recycle=0 pLDDT=63.2 pTM=0.29 ipTM=0
+2023-07-13 11:38:05,675 alphafold2_ptm_model_3_seed_000 recycle=1 pLDDT=63.8 pTM=0.287 ipTM=0
+2023-07-13 11:38:51,078 alphafold2_ptm_model_3_seed_000 recycle=2 pLDDT=65.1 pTM=0.311 ipTM=0
+2023-07-13 11:39:36,749 alphafold2_ptm_model_3_seed_000 recycle=3 pLDDT=65.4 pTM=0.326 ipTM=0
+2023-07-13 11:39:36,753 alphafold2_ptm_model_3_seed_000 took 211.3s (3 recycles)
+2023-07-13 11:39:48,337 reranking models by 'plddt' metric
+2023-07-13 11:39:48,339 rank_001_alphafold2_ptm_model_3_seed_000 pLDDT=65.4 pTM=0.326 ipTM=0
+2023-07-13 11:39:51,052 Done
