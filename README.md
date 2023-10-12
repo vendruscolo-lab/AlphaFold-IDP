@@ -33,9 +33,9 @@ gromacs
 
 The user should download this github repo locally by `gitclone https://github.com/vendruscolo-lab/AlphaFold-IDP.git`
 
-Then, install and activate [OPENMM-PLUMED-MPI implementation](https://github.com/vendruscolo-lab/OpenMM-Plumed-MPI)
+Then, install and activate an conda environment with [OPENMM-PLUMED-MPI implementation](https://github.com/vendruscolo-lab/OpenMM-Plumed-MPI)
 
-Then, create a new environment by `conda env create -f environment.yml` followed by `conda activate AlphaFold-IDP`
+Then, update that environment with the dependencies listed above
 
 ## Authors
 [Faidon Brotzakis (@fbrotzakis)](https://github.com/fbrotzakis)
