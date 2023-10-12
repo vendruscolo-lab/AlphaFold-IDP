@@ -40,7 +40,7 @@ Then, create a new environment by `conda env create -f environment.yml` followed
 
 [Shengyu Zhang (@zshengyu14)](https://github.com/zshengyu14)
 
-[Mhd. Hussein Murtada (@husseinmur)[https://github.com/husseinmur]
+[Mhd. Hussein Murtada (@husseinmur)](https://github.com/husseinmur)
 
 [Michele Vendruscolo (@vendruscolo-lab)](https://github.com/vendruscolo-lab)
 ## Article
