@@ -3,7 +3,7 @@ This repository provides with custom code and analysis scripts to generate struc
 
 ## Layout
 - `AlphaFold prediction of pairwise distances`: In [this](https://colab.research.google.com/github/zshengyu14/colabfold_distmat/blob/main/AlphaFold2.ipynb) google colab notebook, the user can generate AlphaFold predictions  in terms of means, standard deviation and even of probability distribution of individual pairwise aminoacid distances, from arbitrary aminoacid sequences. The output folder of this procedure is stored in the `AF_DATA` folder.
-- `prep_run`: This folder contains the necessary scripts to a) convert atomistic AF pdb to coarse grained pdb, b) create the necessary plumed file in order to run AF-MI, c) run AF-MI by using our new [OPENMM-PLUMED-MPI implementation](https://github.com/vendruscolo-lab/OpenMM-Plumed-MPI) of CALVADOS coarse grained model, d) reconstruct the coarse grained structural ensemble of the disordered protein, f) backmap it to atomistic models e) calculate free energy profiles alon predefined collective variables
+- `prep_run`: This folder contains the necessary scripts to a) convert atomistic AF pdb to coarse grained pdb, b) create the necessary plumed file in order to run AF-MI, c) run AF-MI by using our new [OPENMM-PLUMED-MPI implementation](https://github.com/vendruscolo-lab/OpenMM-Plumed-MPI) of CALVADOS coarse grained model, d) reconstruct the coarse grained structural ensemble of the disordered protein, f) backmap it to atomistic models e) calculate free energy profiles along predefined collective variables
 
 
 ## Reproducability information 
