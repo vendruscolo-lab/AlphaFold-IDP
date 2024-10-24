@@ -35,7 +35,7 @@ plumed --no-mpi driver --plumed reconstruct.dat --mf_xtc cat_trjcat.xtc --timest
 python resample.py
 #Run the python script to make the fes plot
 num=1
-for i in $(echo Rg RMSD1 RMSD2 RMSD3 Rg1 Rg2 Rg3 Rg4 torsion1 torsion2);do
+for i in $(echo CV1 CV2 CV3 etc);do
 python fes2.py --CV_col $num --CV_name $i
 num=$((num+1))
 echo $num

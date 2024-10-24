@@ -9,10 +9,12 @@ import sys
 import glob
 import numpy as np
 import pandas as pd
-import csv
 import ast
 skip_ev=3
 fasta_file = open(sys.argv[1],mode='r')
+PAE_cut=float(sys.argv[2])
+Pr_cut=float(sys.argv[3])
+print(PAE_cut,Pr_cut)
 sequence = fasta_file.read().replace("\n","")
 fasta_file.close()
 
@@ -48,8 +50,7 @@ print(my_df)
 disordered_domains=my_df.to_dict('list')
 
 
-
-
+#"MSEYIRVTEDENDEPIEIPSEDDGTVLLSTVTAQFPGACGLRYRNPVSQCMRGVRLVEGILHAPDAGAGNLVYVVNYPKDNKRKMDETDASSAVKVKRAVQKTSDLIVLGLPAKTTEQDLKEYFSTFGEVLMVQVKKDLKTGHSKGFGFVRFTEYETQVKVMSQRHMIDGRACDCKLPNSKQSQDEPLRSRKVFVGRCTEDMTEDELREFFSQYGDVMDVFIPKPFRAFAFVTFADDQIAQSLCGEDLIIKGISVHISNAEPKHNSNRQLERSGRFGGNPGGFGNQGGFGNSRGGGAGLGNNQGSNMGGGMNFGAFSINPAMMAAAQAALQSSAGMMGMLASQQNQSGPSGNNQNQGNMQREPNQAFGSGNNSYSGSNSGAAIGAGSASNAGSGSGFNGGFGSSMDSKSSGAGM"
 file=open('resid_sel_all.dat', 'w')
 #for i in range(1,len(sequence)+1,skip_ev):
 for i in range(1,len(sequence)+1):
@@ -60,9 +61,13 @@ for i in range(1,len(sequence)+1):
 file.close()
 
 
+# ### Read the AF csv contact map distances
+
+# In[2]:
+
 
 # relative path to search all text files
-files = glob.glob("alphafold2*mean*.csv")
+files = glob.glob("mean_af.csv")
 
 #The contact map is in distance (Angstong)
 print(files[0])
@@ -109,7 +114,7 @@ plt.close()
 f.close()
 
 
-pddf_pairs=np.load('alphafold2_ptm_model_3_seed_000_prob_distributions.npy')
+pddf_pairs=np.load('prob.npy')
 for i in range(len(residue_pairs)):
 
     r1=int(residue_pairs[i][0])
@@ -121,7 +126,8 @@ for i in range(len(residue_pairs)):
     r2_label=r2
     ind1=int(r1_label)-1
     ind2=int(r2_label)-1
-    if ( PAE_array[ind1][ind2]<4 and PAE_array[ind1][ind2]>0 and pddf_pairs[ind1][ind2+1][-1]<0.02):
+
+    if ( (PAE_array[ind1][ind2]+PAE_array[ind2][ind1])/2.0 <PAE_cut and (PAE_array[ind1][ind2]+PAE_array[ind2][ind1])/2.0 > 0 and pddf_pairs[ind1][ind2+1][-1]<Pr_cut):
         exp.append(AF_contacts.loc[r1_m1].at[r2])
         lista.append([int(r1_label),int(r2_label)])
 
@@ -144,7 +150,7 @@ with open('AF_contacts_constr.txt', 'w') as f:
 
 # In[ ]:
 
-files = glob.glob("*alphafold2*.pdb")
+files = glob.glob("pdb_af.pdb")
 print(files)
 AF_pdb=files[0]
 #"TDP_43_WtoA_7643e_unrelaxed_rank_001_alphafold2_ptm_model_3_seed_000.pdb"
@@ -177,8 +183,10 @@ traj = md.load_pdb(name+'.pdb',top=topologyCA)
 traj.save(name+'.pdb')
 
 
+# In[ ]:
 ######################
 p = Bio.PDB.PDBParser()
+#path = '/Volumes/BROTZAKIS/PROJECTS_LOCAL/AF_MI/Rela/prep' # your file path here
 structure = p.get_structure('protein', AF_pdb)
 plddt = [a.get_bfactor() for a in structure.get_atoms()]
 aa=[a.get_name() for a in structure.get_atoms()]
@@ -195,11 +203,13 @@ print(res_ca2)
 print('key dis',ordered_domains)
 print('key dis',disordered_domains)
 ######################
+# In[ ]:
+
 
 
 indexx=1
 for i in ordered_domains.keys():
-    print(ordered_domains[i])
+    print(ordered_domains[i],str(ordered_domains[i][0][0]),str(ordered_domains[i][0][1]))
     selection=traj.topology.select('resid '+str(ordered_domains[i][0][0])+' to '+str(ordered_domains[i][0][1]))
     print(selection)
     sel=traj.atom_slice(selection)
@@ -207,6 +217,7 @@ for i in ordered_domains.keys():
     indexx+=1
 
 
+# In[7]:
 
 
 f=open("plumed.dat","w")
@@ -222,6 +233,21 @@ for i in range(0,len(lista)):
         if ( lista[i][0] in [*range(ordered_domains[k][0][0],ordered_domains[k][0][1])] and lista[i][1] in [*range(ordered_domains[k][0][0],ordered_domains[k][0][1])]):
            ordered_lista.append(i)
 ord_index=0
+##########Make restrained contact map######
+restr_array = np.empty(shape=(len(sequence),len(sequence)))
+restr_array.fill('NaN')
+for i in range(0,len(lista)):
+    if (i not in ordered_lista):
+        restr_array[lista[i][0]-1][lista[i][1]-1]=25
+
+plt.matshow(restr_array,cmap='viridis_r',interpolation='none',vmin=0, vmax=25)
+plt.colorbar()
+plt.savefig('restr_distmap.png')
+plt.close()
+
+
+
+##################
 for i in range(0,len(lista)):
     if (i not in ordered_lista):
         ord_index+=1
@@ -251,8 +277,8 @@ for i in ordered_domains.keys():
     f.write("RMSD"+str(indexx)+": RMSD REFERENCE=struct"+str(indexx)+".pdb TYPE=OPTIMAL\n")
     cvnames.append("RMSD"+str(indexx))
     indexx+=1
-indexx=1
 
+indexx=1
 RMSDs=[]
 AT=[]
 KAPPAS=[]
@@ -270,52 +296,25 @@ for i in ordered_domains.keys():
 
 f.write("uwall: UPPER_WALLS ARG="+','.join(RMSDs)+" AT="+','.join(AT)+" KAPPA="+','.join(KAPPAS)+" EXP="+','.join(EXP)+" EPS="+','.join(EPS)+" OFFSET="+','.join(OFFSET)+"\n")
 
-indexx=1
-for j in disordered_domains.keys():
-    f.write("Rg"+str(indexx)+": GYRATION TYPE=RADIUS ATOMS="+str(disordered_domains[j][0][0])+"-"+str(disordered_domains[j][0][1])+"\n")
-    cvnames.append("Rg"+str(indexx))
-    indexx+=1
-cv=','.join(cvnames)
 
-f.write("PRINT FILE=COLVAR ARG=Rg,"+str(cv)+" STRIDE=200\n")
 f.write("PRINT FILE=DISTANCE_MAP_REST ARG=distance_rest_domains.* STRIDE=200\n")
-
-
-f.write("t1: CENTER ATOMS=3-40\n")
-f.write("t2: CENTER ATOMS=41-79\n")
-f.write("t3: CENTER ATOMS=104-140\n")
-f.write("t4: CENTER ATOMS=141-178\n")
-
-f.write("torsion1: TORSION ATOMS=t1,t2,t3,t4\n")
-
-f.write("tt1: CENTER ATOMS=104-140\n")
-f.write("tt2: CENTER ATOMS=141-178\n")
-f.write("tt3: CENTER ATOMS=191-225\n")
-f.write("tt4: CENTER ATOMS=226-260\n")
-
-f.write("torsion2: TORSION ATOMS=tt1,tt2,tt3,tt4\n")
-
-
-f.write("# PBMetaD\n")
+f.write("PRINT FILE=COLVAR ARG=__FILL__ STRIDE=200\n")
 f.write("PBMETAD ...\n")
 f.write("    LABEL=pb\n")
-f.write("    ARG=torsion1,torsion2\n")
-f.write("    SIGMA=1000\n")
-f.write("    SIGMA_MIN=0.05,0.05\n")
-f.write("    SIGMA_MAX=0.1,0.1\n")
+f.write("    ARG=__FILL__\n")
+f.write("    SIGMA=__FILL__ \n")
+f.write("    SIGMA_MIN=__FILL__ \n")
+f.write("    SIGMA_MAX=__FILL__ \n")
 f.write("    ADAPTIVE=DIFF\n")
-f.write("    HEIGHT=0.5\n")
+f.write("    HEIGHT=__FILL__ \n")
 f.write("    PACE=200\n")
-f.write("    BIASFACTOR=35\n")
-f.write("    GRID_MIN=-pi,-pi\n")
-f.write("    GRID_MAX=pi,pi\n")
-f.write("    GRID_WSTRIDE=5000\n")
+f.write("    BIASFACTOR=__FILL__ \n")
+f.write("    GRID_MIN=__FILL__ \n")
+f.write("    GRID_MAX=__FILL__ \n")
+f.write("    GRID_WSTRIDE=__FILL__ \n")
 f.write("    WALKERS_MPI\n")
-f.write("    TEMP=298\n")
+f.write("    TEMP=__FILL__ \n")
 f.write("... PBMETAD\n")
-
-
-# metainference entries
 f.write("METAINFERENCE ...\n")
 f.write("    ARG=(distance_rest_domains.*),pb.bias REWEIGHT\n")
 f.write("    PARARG=(af_dist_rest.*)\n")
@@ -323,16 +322,14 @@ f.write("    SIGMA_MEAN0=1\n")
 f.write("    NOISETYPE=MGAUSS  OPTSIGMAMEAN=SEM AVERAGING=200\n")
 f.write("    SIGMA0=10.0 SIGMA_MIN=0.0001 SIGMA_MAX=10.0 DSIGMA=0.1\n")
 f.write("    MC_STEPS=10\n")
-f.write("    MC_CHUNKSIZE=20\n")
+f.write("    MC_CHUNKSIZE=23\n")
 f.write("    WRITE_STRIDE=10000\n")
-f.write("    TEMP=298\n")
+f.write("    TEMP=__FILL__ \n")
 f.write("    LABEL=af_mi_rest_domains\n")
-f.write("... METAINFERENCE\n\n")
-
+f.write("... METAINFERENCE\n")
 f.write("FLUSH STRIDE=200\n")
 f.write("PRINT FILE=ENERGY ARG=pb.bias STRIDE=200\n")
 f.write("PRINT ARG=af_mi_rest_domains.*   STRIDE=200 FILE=BAYES_rest_domains\n")
-
 f.write("ENDPLUMED\n")
 
 f.close()

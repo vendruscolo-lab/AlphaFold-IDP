@@ -1,3 +1,4 @@
+#python gen_xml_and_constraints.py sequence.dat 7.4 298 0.2
 import pandas as pd
 import numpy as np
 import pickle
@@ -85,12 +86,12 @@ def generate_ashbaugh_block(res,rcut):
     out = outer+inner+" </{}>\n\n".format(tag)
     return out
 
-def generate_forcefield_xml(fasta, residues, xml_name):
-    residues = adjust_terminals_HIS(residues,7.4,fasta)
+def generate_forcefield_xml(fasta, residues, xml_name, pH, temp, ionic):
+    residues = adjust_terminals_HIS(residues,pH,fasta)
     atomTypes_block = generate_atomtypes_block(residues)
     residues_block = generate_residues_block(residues)
     harmonic_bond_block = generate_harmonicBond_block(0.38,8033.0)
-    yukawa_block = generate_yukawa_block(residues,298,0.2,4)
+    yukawa_block = generate_yukawa_block(residues,temp,ionic,4)
     ashbaugh_block = generate_ashbaugh_block(residues,2)
     xml_output="<ForceField>\n\n{}{}{}{}{}</ForceField>".format(atomTypes_block,residues_block,harmonic_bond_block,yukawa_block,ashbaugh_block)
     with open(xml_name, "w") as f:
@@ -103,12 +104,21 @@ def create_exclusions_file(n_res):
     with open('r1_excl.pkl', 'wb') as fp:
         pickle.dump(excl, fp)
 
+if len(sys.argv) == 5:
+    pH = float(sys.argv[2])
+    #print(pH)
+    temp = float(sys.argv[3])
+    ionic = float(sys.argv[4])
+else:
+    pH = 7.4
+    temp = 298
+    ionic = 0.2
+
 fasta_file = open(sys.argv[1],mode='r')
 fasta = fasta_file.read().replace("\n","")
 fasta_file.close()
-print(fasta)
 
 residues = pd.read_csv('residues.csv').set_index('one',drop=False)
 
-generate_forcefield_xml(fasta, residues, "forcefield.xml")
+generate_forcefield_xml(fasta, residues, "forcefield.xml", pH, temp, ionic)
 create_exclusions_file(len(fasta))

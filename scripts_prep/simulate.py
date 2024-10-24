@@ -1,3 +1,4 @@
+#python simulate.py 7.4 298
 from openmm.app import *
 from openmm import *
 from openmm.unit import *
@@ -12,6 +13,7 @@ import time
 comm1 = MPI.COMM_SELF
 comm2 = MPI.COMM_WORLD
 
+from sys import stdout, argv
 platform = Platform.getPlatformByName('CPU')
 #properties={}
 #properties["Threads"]="1"
@@ -21,6 +23,10 @@ fasta_file = open('sequence.dat',mode='r')
 fasta = fasta_file.read().replace("\n","")
 fasta_file.close()
 
+pH = float(argv[1])
+temp = float(argv[2])
+#fasta = """
+#MSEYIRVTEDENDEPIEIPSEDDGTVLLSTVTAQFPGACGLRYRNPVSQCMRGVRLVEGILHAPDAGAGNLVYVVNYPKDNKRKMDETDASSAVKVKRAVQKTSDLIVLGLPAKTTEQDLKEYFSTFGEVLMVQVKKDLKTGHSKGFGFVRFTEYETQVKVMSQRHMIDGRACDCKLPNSKQSQDEPLRSRKVFVGRCTEDMTEDELREFFSQYGDVMDVFIPKPFRAFAFVTFADDQIAQSLCGEDLIIKGISVHISNAEPKHNSNRQLERSGRFGGNPGGFGNQGGFGNSRGGGAGLGNNQGSNMGGGMNFGAFSINPAMMAAAQAALQSSAGMMGMLASQQNQSGPSGNNQNQGNMQREPNQAFGSGNNSYSGSNSGAAIGAGSASNAGSGSGFNGGFGSSMDSKSSGAGM""".replace('\n', '')
 
 def adjust_terminals_HIS(r,pH,fasta):
     r.loc['H','q'] = 1. / ( 1 + 10**(pH-6) )
@@ -36,7 +42,8 @@ def adjust_terminals_HIS(r,pH,fasta):
     
     return r.set_index('three')
 
-residues = adjust_terminals_HIS(residues,7.4,fasta)
+residues = adjust_terminals_HIS(residues,pH,fasta)
+
 
 atomic_number = 117
 for i,r in residues.iterrows():
@@ -81,7 +88,7 @@ for bond in r1_exclusions:
     forces[2].addExclusion(bond[0],bond[1])
 
 #open text file in read mode
-plumed_file = open("plumed.dat", "r")
+plumed_file = open("plumed_multi_16A_rest.dat", "r")
 script= plumed_file.read()
 plumed_file.close()
 script = "".join(script)
@@ -98,8 +105,8 @@ DCD_output_file = "output_{}.dcd".format(comm2.Get_rank())
 #DCD_output_file = "output.dcd".format(comm2.Get_rank())
 stats_output_file = "stats_{}.csv".format(comm2.Get_rank())
 #stats_output_file = "stats.csv".format(comm2.Get_rank())
+integrator = LangevinIntegrator(temp*kelvin, 0.01/picosecond, 0.005*picoseconds)
 
-integrator = LangevinIntegrator(298*kelvin, 0.01/picosecond, 0.005*picoseconds)
 
 #simulation = Simulation(top, system, integrator,platform,properties)
 simulation = Simulation(top, system, integrator,platform)

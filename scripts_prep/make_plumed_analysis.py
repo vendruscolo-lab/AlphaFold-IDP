@@ -79,43 +79,28 @@ indexx=1
 
 indexx=1
 
-f.write("t1: CENTER ATOMS=3-40\n")
-f.write("t2: CENTER ATOMS=41-79\n")
-f.write("t3: CENTER ATOMS=104-140\n")
-f.write("t4: CENTER ATOMS=141-178\n")
-
-f.write("torsion1: TORSION ATOMS=t1,t2,t3,t4\n")
-
-f.write("tt1: CENTER ATOMS=104-140\n")
-f.write("tt2: CENTER ATOMS=141-178\n")
-f.write("tt3: CENTER ATOMS=191-225\n")
-f.write("tt4: CENTER ATOMS=226-260\n")
-
-f.write("torsion2: TORSION ATOMS=tt1,tt2,tt3,tt4\n")
-
-
 f.write("# PBMetaD\n")
 f.write("PBMETAD ...\n")
 f.write("    LABEL=pb\n")
-f.write("    ARG=torsion1,torsion2\n")
-f.write("    SIGMA=1000\n")
-f.write("    SIGMA_MIN=0.05,0.05\n")
-f.write("    SIGMA_MAX=0.1,0.1\n")
+f.write("    ARG=__FILL__\n")
+f.write("    SIGMA=__FILL__\n")
+f.write("    SIGMA_MIN=__FILL__\n")
+f.write("    SIGMA_MAX=__FILL__\n")
 f.write("    ADAPTIVE=DIFF\n")
-f.write("    HEIGHT=0.5\n")
+f.write("    HEIGHT=__FILL__\n")
 f.write("    PACE=20000000\n")
-f.write("    BIASFACTOR=35\n")
-f.write("    GRID_MIN=-pi,-pi\n")
-f.write("    GRID_MAX=pi,pi\n")
-f.write("    GRID_WSTRIDE=5000\n")
+f.write("    BIASFACTOR=__FILL__\n")
+f.write("    GRID_MIN=__FILL__\n")
+f.write("    GRID_MAX=__FILL__\n")
+f.write("    GRID_WSTRIDE=__FILL__\n")
 f.write("    WALKERS_MPI\n")
-f.write("    TEMP=298\n")
+f.write("    TEMP=__FILL__\n")
 f.write("... PBMETAD\n")
 
 
 cv=','.join(cvnames)
 f.write("PRINT ARG=pb.bias FILE=FULLBIAS STRIDE=1\n")
-f.write("PRINT FILE=COLVAR ARG="+str(cv)+" STRIDE=1\n")
+f.write("PRINT FILE=COLVAR ARG=__FILL__ STRIDE=1\n")
 f.write("ENDPLUMED\n")
 
 f.close()

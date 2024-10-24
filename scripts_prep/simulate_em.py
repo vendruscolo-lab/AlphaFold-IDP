@@ -1,3 +1,4 @@
+#python simulate_em.py 7.4 298
 from openmm.app import *
 from openmm import *
 from openmm.unit import *
@@ -11,6 +12,8 @@ from openmmplumed import PlumedForce
 comm1 = MPI.COMM_SELF
 comm2 = MPI.COMM_WORLD
 
+from sys import stdout, argv
+
 platform = Platform.getPlatformByName('CPU')
 #properties={}
 
@@ -19,6 +22,8 @@ residues = pd.read_csv("residues.csv").set_index('one')
 fasta_file = open('sequence.dat',mode='r')
 fasta = fasta_file.read().replace("\n","")
 fasta_file.close()
+pH = float(argv[1])
+temp = float(argv[2])
 
 #fasta = """
 #MSEYIRVTEDENDEPIEIPSEDDGTVLLSTVTAQFPGACGLRYRNPVSQCMRGVRLVEGILHAPDAGAGNLVYVVNYPKDNKRKMDETDASSAVKVKRAVQKTSDLIVLGLPAKTTEQDLKEYFSTFGEVLMVQVKKDLKTGHSKGFGFVRFTEYETQVKVMSQRHMIDGRACDCKLPNSKQSQDEPLRSRKVFVGRCTEDMTEDELREFFSQYGDVMDVFIPKPFRAFAFVTFADDQIAQSLCGEDLIIKGISVHISNAEPKHNSNRQLERSGRFGGNPGGFGNQGGFGNSRGGGAGLGNNQGSNMGGGMNFGAFSINPAMMAAAQAALQSSAGMMGMLASQQNQSGPSGNNQNQGNMQREPNQAFGSGNNSYSGSNSGAAIGAGSASNAGSGSGFNGGFGSSMDSKSSGAGM""".replace('\n', '')
@@ -37,7 +42,7 @@ def adjust_terminals_HIS(r,pH,fasta):
     
     return r.set_index('three')
 
-residues = adjust_terminals_HIS(residues,7.4,fasta)
+residues = adjust_terminals_HIS(residues,pH,fasta)
 
 atomic_number = 117
 for i,r in residues.iterrows():
@@ -89,7 +94,7 @@ N_steps = 1100*N_save
 DCD_output_file = "output.dcd"
 stats_output_file = "stats.csv"
 
-integrator = LangevinIntegrator(298*kelvin, 0.01/picosecond, 0.005*picoseconds)
+integrator = LangevinIntegrator(temp*kelvin, 0.01/picosecond, 0.005*picoseconds)
 
 
 #simulation = Simulation(top, system, integrator,platform,properties)
@@ -97,7 +102,7 @@ simulation = Simulation(top, system, integrator,platform)
     
 simulation.context.setPositions(pdb.positions)
 
-simulation.minimizeEnergy(0)
+simulation.minimizeEnergy(10)
 
 simulation.saveCheckpoint("checkpoint")
 
