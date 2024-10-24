@@ -88,7 +88,7 @@ for bond in r1_exclusions:
     forces[2].addExclusion(bond[0],bond[1])
 
 #open text file in read mode
-plumed_file = open("plumed_multi_16A_rest.dat", "r")
+plumed_file = open("plumed.dat", "r")
 script= plumed_file.read()
 plumed_file.close()
 script = "".join(script)
