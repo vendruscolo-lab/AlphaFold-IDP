@@ -15,6 +15,6 @@ for k in $(echo 5);do
 
    xtcs=$(cat seg_list.dat |sed 's/_sys.pdb/.rebuilt.xtc/'g|xargs -n 100000000 )
    echo $xtcs
-   gmx_mpi trjcat -f $xtcs  -cat -o segment_"$k"_input_af_rebuilt.xtc
+   gmx trjcat -f $xtcs  -cat -o segment_"$k"_input_af_rebuilt.xtc
 
 done

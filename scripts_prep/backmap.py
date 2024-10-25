@@ -6,10 +6,11 @@
 #Make the plumed file
 import mdtraj as md
 import os
+import sys
 name='input_af'
 pdb=name+'.pdb'
 ########### Conactenate ########
-n_rep=6
+n_rep=int(sys.argv[1])
 trajs = list()
 skip=2
 eq=10
