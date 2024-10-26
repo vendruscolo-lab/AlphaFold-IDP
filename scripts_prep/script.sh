@@ -1,12 +1,12 @@
 #!/bin/bash
 nrep=$1
-#<<BEG
 rm COLVAR* HILLS* FULLBIAS
 cp ../HILLS.* .
 cp ../GRID* .
 cp ../BAYES* .
 
 rm segment*pdb segment*xtc
+#Convert dcds to xtc
 python dcd2xtc.py $nrep
 for ((c=0;c<$nrep;c++))
 do
@@ -20,25 +20,17 @@ EOF
 done
 done
 
+#concatenate xtcs to a single xtc
 gmx trjcat -f nosolv_*.xtc -cat -o cat_trjcat.xtc -settime
 
-#BEG
 plumed driver --plumed plumed_analysis.dat --mf_xtc cat_trjcat.xtc
 plumed --no-mpi driver --plumed reconstruct.dat --mf_xtc cat_trjcat.xtc --timestep 1
 
+#Sample the structural ensemble by weights.
 python resample.py
-#Run the python script to make the fes plot
-#num=1
-#For other proteins the entries CV1,CV2,CV3 etc need to follow the COLVAR columns like:
-#for i in $(echo CV1 CV2 CV3 etc);do
 
-## For TDP-43 WtoA
-#for i in $(echo Rg Rg1 Rg2 Rg3 Rg4 torsion1 torsion2 RMSD1 RMSD2 RMSD3);do
-#python fes2.py --CV_col $num --CV_name $i
-#num=$((num+1))
-#echo $num
-#done
 
+#Backmap from coarse-grained to atomistic
 python backmap.py $nrep
 sh pulchra.sh
 sh keepH.sh
