@@ -123,7 +123,7 @@ simulation.reporters.append(DCDReporter(DCD_output_file, 3000))
 simulation.reporters.append(StateDataReporter(stats_output_file, N_save, step=True, potentialEnergy=True, temperature=True))
 time1=time.time()
 #simulation.step(N_steps)
-simulation.step(1000000)
+simulation.step(3000000)
 time2=time.time()
 print(time2-time1)
 
