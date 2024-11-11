@@ -47,5 +47,4 @@ Then, update that environment with the dependencies listed above
 [Michele Vendruscolo (@vendruscolo-lab)](https://github.com/vendruscolo-lab)
 ## Article
 
-https://www.biorxiv.org/content/10.1101/2023.01.19.524720v1.full
-
+https://www.biorxiv.org/content/10.1101/2024.11.09.622758v1
